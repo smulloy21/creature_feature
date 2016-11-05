@@ -1,6 +1,9 @@
-from flask import Flask
+from flask import Flask, render_template, request, jsonify
 import os
 from pymongo import MongoClient
+from bson import Binary, Code, ObjectId
+from bson.json_util import dumps
+
 client = MongoClient()
 
 client = MongoClient('localhost', 27017)
@@ -11,27 +14,60 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "GRRRRRRRR"
+    return render_template('homepage.html')
 
 @app.route("/register")
+def getRegister():
+    return render_template('register.html')
+
+@app.route("/register", methods=['POST'])
 def register():
-    return "SIGN UP"
+    data = request.get_json(force=True)
+    print data
+    data['monster'] = {}
+    data['monster']['status'] = 1
+    data['goal'] = 0
+    data['completed'] = 0
+    _id = db.user.insert(data)
+    if _id:
+        user = db.user.find_one({'_id': ObjectId(_id)})
+        return dumps(user)
+    else:
+        return dumps({'status': 'failed'})
 
 @app.route("/login")
-def login():
-    return "LOGIN"
+def getLogin():
+    return render_template('user.html')
 
-@app.route("/setgoal")
-def setgoal():
-    return "SET GOAL"
+@app.route("/login", methods=['POST'])
+def login():
+    data = request.get_json(force=True)
+    print data
+    user = db.user.find_one({'email': data['email'], 'password': data['password']})
+    return dumps({'user': user})
+
+@app.route("/goal")
+def getGoal():
+    return render_template('goal.html')
+
+@app.route("/setgoal/<id>", methods=['POST'])
+def setgoal(id):
+    data = request.get_json(force=True)
+    goal = int(data['goal'])
+    db.user.update_one({'_id': ObjectId(id)}, {'$set': {'goal': goal}})
+    return jsonify({'status': 'ok'})
 
 @app.route("/user/<id>")
 def user(id):
-    return "HELLO USER %s" % id
+    user = db.user.find_one({'_id': ObjectId(id)})
+    if user:
+        return render_template('dashboard.html', dumps({'user': user}))
 
-@app.route("/action")
-def action():
-    return "YOU DID AN ACTION"
+@app.route("/action/<id>")
+def action(id):
+    import pdb; pdb.set_trace()
+    db.user.update_one({'_id': ObjectId(id)}, {'$inc': {'completed': 1}})
+    return jsonify({'status': 'ok'})
 
 if __name__ == "__main__":
     # Bind to PORT if defined, otherwise default to 5000.
