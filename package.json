@@ -1,5 +1,5 @@
 {
-  "name": "apparel-listings",
+  "name": "creature-feature",
   "scripts": {
     "start": "node app.js"
   },
@@ -9,6 +9,14 @@
   },
   "dependencies": {
     "body-parser": "^1.13.2",
-    "express": "~4.11.2"
+    "express": "~4.12.3",
+    "mongodb": "2.2.11",
+    "express-session": "1.11.2",
+    "http-status": "0.1.8",
+    "mongoose": "4.0.3",
+    "passport": "0.2.2",
+    "passport-facebook": "2.0.0",
+    "underscore": "1.5.2",
+    "wagner-core": "0.1.0"
   }
 }
