@@ -19,6 +19,10 @@ h1{
     font-family: 'Permanent Marker', cursive;
 }
 
+label{ 
+    color:black;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 2em;
 h3{
     color:black;
 }
