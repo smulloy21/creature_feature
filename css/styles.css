@@ -1,16 +1,28 @@
 #logo{
-    margin:0 -15px;
-}
+    margin:-15px;
+    padding:-15px;
+
+    }
+
+    
+    
 body{
-    background-color: purple;
+    background-color: #00A676;
 }
 
-
+.form-container{
+    
+}
 
 h1{
     color:black;
+    font-family: 'Permanent Marker', cursive;
 }
 
+label{ 
+    color:black;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 2em;
 h3{
     color:black;
 }
