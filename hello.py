@@ -46,9 +46,9 @@ def login():
     user = db.user.find_one({'email': data['email'], 'password': data['password']})
     return dumps({'user': user})
 
-@app.route("/goal")
-def getGoal():
-    return render_template('goal.html')
+@app.route("/goal/<_id>")
+def getGoal(_id):
+    return render_template('goal.html', {'_id': _id})
 
 @app.route("/setgoal/<id>", methods=['POST'])
 def setgoal(id):
